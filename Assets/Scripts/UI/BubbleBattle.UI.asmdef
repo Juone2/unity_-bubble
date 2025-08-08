@@ -1,0 +1,18 @@
+{
+    "name": "BubbleBattle.UI",
+    "rootNamespace": "BubbleBattle.UI",
+    "references": [
+        "BubbleBattle.Core",
+        "BubbleBattle.Player",
+        "BubbleBattle.Items"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
