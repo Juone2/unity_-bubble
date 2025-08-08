@@ -44,6 +44,9 @@ Assets/
 
 ## Development Status
 - [x] Project setup and folder structure
+- [x] Core script architecture
+- [x] Git repository setup
+- [ ] Unity Input System setup
 - [ ] Core gameplay systems
 - [ ] Player controllers
 - [ ] Item system
