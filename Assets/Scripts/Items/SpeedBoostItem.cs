@@ -11,11 +11,9 @@ namespace BubbleBattle.Items
         
         protected override void ApplyEffect(PlayerController user)
         {
-            var currentSpeed = user.GetComponent<PlayerController>();
-            if (currentSpeed != null)
+            if (user != null)
             {
                 // Apply speed boost
-                // Note: This would need to be implemented in PlayerController
                 user.StartCoroutine(ApplySpeedBoost(user, speedMultiplier, Duration));
                 
                 Debug.Log($"Speed boost applied to Player {user.PlayerData.playerId} for {Duration} seconds!");
@@ -24,16 +22,16 @@ namespace BubbleBattle.Items
         
         private System.Collections.IEnumerator ApplySpeedBoost(PlayerController player, float multiplier, float duration)
         {
-            // Store original speed (this would need to be accessible from PlayerController)
-            float originalSpeed = 5f; // Default move speed
+            // Store original speed
+            float originalSpeed = player.GetOriginalMoveSpeed();
             
             // Apply speed boost
-            // player.SetMoveSpeed(originalSpeed * multiplier);
+            player.SetMoveSpeed(originalSpeed * multiplier);
             
             yield return new WaitForSeconds(duration);
             
             // Restore original speed
-            // player.SetMoveSpeed(originalSpeed);
+            player.SetMoveSpeed(originalSpeed);
             
             Debug.Log($"Speed boost ended for Player {player.PlayerData.playerId}");
         }

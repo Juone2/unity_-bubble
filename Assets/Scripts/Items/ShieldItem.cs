@@ -19,17 +19,17 @@ namespace BubbleBattle.Items
         
         private System.Collections.IEnumerator ApplyShield(PlayerController player, int reduction, float duration)
         {
-            // Apply shield effect (would need implementation in PlayerController)
-            // player.SetDamageReduction(reduction);
+            // Apply shield effect
+            player.SetDamageReduction(reduction);
             
             // Visual indication of shield
-            // ShowShieldEffect(player);
+            ShowShieldEffect(player);
             
             yield return new WaitForSeconds(duration);
             
             // Remove shield effect
-            // player.SetDamageReduction(0);
-            // HideShieldEffect(player);
+            player.SetDamageReduction(0);
+            HideShieldEffect(player);
             
             Debug.Log($"Shield effect ended for Player {player.PlayerData.playerId}");
         }

@@ -10,7 +10,9 @@ namespace BubbleBattle.Player
         [Header("Player Settings")]
         [SerializeField] private PlayerData playerData;
         [SerializeField] private float moveSpeed = 5f;
+        [SerializeField] private float originalMoveSpeed = 5f;
         [SerializeField] private bool controlsReversed = false;
+        [SerializeField] private int damageReduction = 0;
         
         [Header("Components")]
         private Rigidbody2D rb2d;
@@ -59,6 +61,7 @@ namespace BubbleBattle.Player
         {
             transform.position = playerData.spawnPosition;
             playerStats.Initialize(playerData);
+            originalMoveSpeed = moveSpeed;
             
             // Set player visual (color, etc.)
             var renderer = GetComponent<SpriteRenderer>();
@@ -145,7 +148,9 @@ namespace BubbleBattle.Player
         
         public void TakeDamage(int damage)
         {
-            playerStats.TakeDamage(damage);
+            // Apply damage reduction
+            int reducedDamage = Mathf.Max(0, damage - (damage * damageReduction / 100));
+            playerStats.TakeDamage(reducedDamage);
             OnHealthChanged?.Invoke(playerStats.CurrentHealth);
             
             if (playerStats.CurrentHealth <= 0)
@@ -165,11 +170,38 @@ namespace BubbleBattle.Player
             Debug.Log($"Player {playerData.playerId} died!");
         }
         
+        public void SetMoveSpeed(float newSpeed)
+        {
+            moveSpeed = newSpeed;
+        }
+        
+        public float GetMoveSpeed()
+        {
+            return moveSpeed;
+        }
+        
+        public float GetOriginalMoveSpeed()
+        {
+            return originalMoveSpeed;
+        }
+        
+        public void SetDamageReduction(int reduction)
+        {
+            damageReduction = Mathf.Clamp(reduction, 0, 100);
+        }
+        
+        public int GetDamageReduction()
+        {
+            return damageReduction;
+        }
+        
         public void ResetPlayer()
         {
             transform.position = playerData.spawnPosition;
             playerStats.ResetStats();
             controlsReversed = false;
+            moveSpeed = originalMoveSpeed;
+            damageReduction = 0;
             
             // Clear inventory
             for (int i = 0; i < inventory.Length; i++)
