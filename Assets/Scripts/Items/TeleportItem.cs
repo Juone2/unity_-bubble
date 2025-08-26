@@ -1,5 +1,4 @@
 using UnityEngine;
-using BubbleBattle.Player;
 using BubbleBattle.Core;
 
 namespace BubbleBattle.Items
@@ -11,7 +10,7 @@ namespace BubbleBattle.Items
         [SerializeField] private float teleportRadius = 3f;
         [SerializeField] private int maxAttempts = 10;
         
-        protected override void ApplyEffect(PlayerController user)
+        protected override void ApplyEffect(Component user)
         {
             Vector3 teleportPosition = FindValidTeleportPosition(user.transform.position);
             
@@ -23,11 +22,11 @@ namespace BubbleBattle.Items
                 // Visual effect (if available)
                 // PlayTeleportEffect(user.transform.position);
                 
-                Debug.Log($"Player {user.PlayerData.playerId} teleported to {teleportPosition}");
+                Debug.Log($"Player {user.name} teleported to {teleportPosition}");
             }
             else
             {
-                Debug.LogWarning($"Could not find valid teleport position for Player {user.PlayerData.playerId}");
+                Debug.LogWarning($"Could not find valid teleport position for Player {user.name}");
             }
         }
         

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using BubbleBattle.Core;
+using BubbleBattle.Items;
 
 namespace BubbleBattle.UI
 {
@@ -137,9 +138,9 @@ namespace BubbleBattle.UI
             }
             
             // Clear all items
-            if (BubbleBattle.Items.ItemManager.Instance != null)
+            if (ItemManager.Instance != null)
             {
-                BubbleBattle.Items.ItemManager.Instance.ClearAllItems();
+                ItemManager.Instance.ClearAllItems();
             }
             
             if (GameManager.Instance != null)

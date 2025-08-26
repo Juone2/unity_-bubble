@@ -1,5 +1,4 @@
 using UnityEngine;
-using BubbleBattle.Player;
 
 namespace BubbleBattle.Items
 {
@@ -9,31 +8,43 @@ namespace BubbleBattle.Items
         [Header("Speed Boost Settings")]
         [SerializeField] private float speedMultiplier = 1.5f;
         
-        protected override void ApplyEffect(PlayerController user)
+        protected override void ApplyEffect(Component user)
         {
             if (user != null)
             {
                 // Apply speed boost
-                user.StartCoroutine(ApplySpeedBoost(user, speedMultiplier, Duration));
+                StartEffectCoroutine(user, ApplySpeedBoost(user, speedMultiplier, Duration));
                 
-                Debug.Log($"Speed boost applied to Player {user.PlayerData.playerId} for {Duration} seconds!");
+                Debug.Log($"Speed boost applied to {user.name} for {Duration} seconds!");
             }
         }
         
-        private System.Collections.IEnumerator ApplySpeedBoost(PlayerController player, float multiplier, float duration)
+        private System.Collections.IEnumerator ApplySpeedBoost(Component player, float multiplier, float duration)
         {
-            // Store original speed
-            float originalSpeed = player.GetOriginalMoveSpeed();
+            // Use reflection to get and set speed
+            var playerType = player.GetType();
+            var getSpeedMethod = playerType.GetMethod("GetOriginalMoveSpeed");
+            var setSpeedMethod = playerType.GetMethod("SetMoveSpeed");
+            
+            // Get original speed
+            float originalSpeed = 5f; // Default fallback
+            if (getSpeedMethod != null)
+            {
+                var result = getSpeedMethod.Invoke(player, null);
+                if (result is float speed) originalSpeed = speed;
+            }
             
             // Apply speed boost
-            player.SetMoveSpeed(originalSpeed * multiplier);
+            if (setSpeedMethod != null)
+                setSpeedMethod.Invoke(player, new object[] { originalSpeed * multiplier });
             
             yield return new WaitForSeconds(duration);
             
             // Restore original speed
-            player.SetMoveSpeed(originalSpeed);
+            if (setSpeedMethod != null)
+                setSpeedMethod.Invoke(player, new object[] { originalSpeed });
             
-            Debug.Log($"Speed boost ended for Player {player.PlayerData.playerId}");
+            Debug.Log($"Speed boost ended for {player.name}");
         }
     }
 }

@@ -195,6 +195,11 @@ namespace BubbleBattle.Player
             return damageReduction;
         }
         
+        public void SetControlsReversed(bool reversed)
+        {
+            controlsReversed = reversed;
+        }
+        
         public void ResetPlayer()
         {
             transform.position = playerData.spawnPosition;

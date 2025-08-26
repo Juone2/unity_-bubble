@@ -1,9 +1,7 @@
 {
     "name": "BubbleBattle.Core",
     "rootNamespace": "BubbleBattle.Core",
-    "references": [
-        "Unity.InputSystem"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

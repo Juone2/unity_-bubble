@@ -4,7 +4,8 @@
     "references": [
         "BubbleBattle.Core",
         "BubbleBattle.Player",
-        "BubbleBattle.Items"
+        "BubbleBattle.Items",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

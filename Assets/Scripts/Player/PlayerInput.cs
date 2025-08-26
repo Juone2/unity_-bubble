@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace BubbleBattle.Player
 {
@@ -7,13 +6,6 @@ namespace BubbleBattle.Player
     {
         [Header("Input Settings")]
         [SerializeField] private int playerId = 1;
-        [SerializeField] private bool useNewInputSystem = true;
-        
-        [Header("Input Actions")]
-        private PlayerInputActions inputActions;
-        private InputAction moveAction;
-        private InputAction useItemAction;
-        private InputAction switchItemAction;
         
         private Vector2 movementInput;
         private bool itemUsePressed;
@@ -21,76 +13,7 @@ namespace BubbleBattle.Player
         
         public int PlayerId => playerId;
         
-        private void Awake()
-        {
-            if (useNewInputSystem)
-            {
-                SetupNewInputSystem();
-            }
-        }
-        
-        private void SetupNewInputSystem()
-        {
-            inputActions = new PlayerInputActions();
-            
-            // Map actions based on player ID
-            if (playerId == 1)
-            {
-                moveAction = inputActions.Player1.Move;
-                useItemAction = inputActions.Player1.UseItem;
-                switchItemAction = inputActions.Player1.SwitchItem;
-            }
-            else
-            {
-                moveAction = inputActions.Player2.Move;
-                useItemAction = inputActions.Player2.UseItem;
-                switchItemAction = inputActions.Player2.SwitchItem;
-            }
-        }
-        
-        private void OnEnable()
-        {
-            if (useNewInputSystem && inputActions != null)
-            {
-                inputActions.Enable();
-                
-                useItemAction.performed += OnUseItemPerformed;
-                switchItemAction.performed += OnSwitchItemPerformed;
-            }
-        }
-        
-        private void OnDisable()
-        {
-            if (useNewInputSystem && inputActions != null)
-            {
-                useItemAction.performed -= OnUseItemPerformed;
-                switchItemAction.performed -= OnSwitchItemPerformed;
-                
-                inputActions.Disable();
-            }
-        }
-        
         private void Update()
-        {
-            if (useNewInputSystem)
-            {
-                UpdateNewInputSystem();
-            }
-            else
-            {
-                UpdateLegacyInputSystem();
-            }
-        }
-        
-        private void UpdateNewInputSystem()
-        {
-            if (moveAction != null)
-            {
-                movementInput = moveAction.ReadValue<Vector2>();
-            }
-        }
-        
-        private void UpdateLegacyInputSystem()
         {
             // Player 1 controls (WASD)
             if (playerId == 1)
@@ -126,16 +49,6 @@ namespace BubbleBattle.Player
             }
         }
         
-        private void OnUseItemPerformed(InputAction.CallbackContext context)
-        {
-            itemUsePressed = true;
-        }
-        
-        private void OnSwitchItemPerformed(InputAction.CallbackContext context)
-        {
-            itemSwitchPressed = true;
-        }
-        
         public Vector2 GetMovementInput()
         {
             return movementInput;
@@ -158,10 +71,6 @@ namespace BubbleBattle.Player
         public void SetPlayerId(int id)
         {
             playerId = id;
-            if (useNewInputSystem)
-            {
-                SetupNewInputSystem();
-            }
         }
     }
 }

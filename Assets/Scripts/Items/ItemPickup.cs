@@ -1,5 +1,4 @@
 using UnityEngine;
-using BubbleBattle.Player;
 
 namespace BubbleBattle.Items
 {
@@ -70,14 +69,15 @@ namespace BubbleBattle.Items
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            var player = other.GetComponent<PlayerController>();
+            var player = other.GetComponent<MonoBehaviour>();
+            if (player != null && player.GetType().Name == "PlayerController")
             if (player != null)
             {
                 PickupItem(player);
             }
         }
         
-        private void PickupItem(PlayerController player)
+        private void PickupItem(MonoBehaviour player)
         {
             if (item == null)
             {
@@ -86,7 +86,13 @@ namespace BubbleBattle.Items
             }
             
             // Try to add item to player's inventory
-            bool added = player.AddItem(item.CreateInstance());
+            bool added = false;
+            var addItemMethod = player.GetType().GetMethod("AddItem");
+            if (addItemMethod != null)
+            {
+                var result = addItemMethod.Invoke(player, new object[] { item.CreateInstance() });
+                if (result is bool success) added = success;
+            }
             
             if (added)
             {
@@ -99,14 +105,14 @@ namespace BubbleBattle.Items
                 // Notify systems
                 OnPickedUp?.Invoke(this);
                 
-                Debug.Log($"Player {player.PlayerData.playerId} picked up {item.ItemName}");
+                Debug.Log($"Player {player.name} picked up {item.ItemName}");
                 
                 // Destroy pickup object
                 Destroy(gameObject);
             }
             else
             {
-                Debug.Log($"Player {player.PlayerData.playerId}'s inventory is full!");
+                Debug.Log($"Player {player.name}'s inventory is full!");
             }
         }
         

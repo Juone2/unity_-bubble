@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using BubbleBattle.Core;
 using BubbleBattle.Player;
+using BubbleBattle.Items;
 
 namespace BubbleBattle.UI
 {

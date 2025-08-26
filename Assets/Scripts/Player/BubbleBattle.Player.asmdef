@@ -3,7 +3,7 @@
     "rootNamespace": "BubbleBattle.Player",
     "references": [
         "BubbleBattle.Core",
-        "Unity.InputSystem"
+        "BubbleBattle.Items"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

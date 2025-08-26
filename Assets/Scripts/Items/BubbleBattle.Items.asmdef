@@ -2,8 +2,7 @@
     "name": "BubbleBattle.Items",
     "rootNamespace": "BubbleBattle.Items",
     "references": [
-        "BubbleBattle.Core",
-        "BubbleBattle.Player"
+        "BubbleBattle.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,5 +1,5 @@
 using UnityEngine;
-using BubbleBattle.Player;
+using System.Linq;
 
 namespace BubbleBattle.Items
 {
@@ -31,15 +31,25 @@ namespace BubbleBattle.Items
         public bool AffectsUser => affectsUser;
         public bool AffectsTarget => affectsTarget;
         
-        public virtual void Use(PlayerController user)
+        public virtual void Use(Component user)
         {
-            Debug.Log($"{user.PlayerData.playerName} used {itemName}");
+            Debug.Log($"{user.name} used {itemName}");
             ApplyEffect(user);
         }
         
-        protected virtual void ApplyEffect(PlayerController user)
+        protected virtual void ApplyEffect(Component user)
         {
             // Override in derived classes
+        }
+        
+        // Helper method to start coroutines from the user object
+        protected void StartEffectCoroutine(Component user, System.Collections.IEnumerator routine)
+        {
+            var monoBehaviour = user as MonoBehaviour;
+            if (monoBehaviour != null)
+            {
+                monoBehaviour.StartCoroutine(routine);
+            }
         }
         
         public virtual ItemBase CreateInstance()
@@ -47,9 +57,9 @@ namespace BubbleBattle.Items
             return Instantiate(this);
         }
         
-        protected PlayerController GetOtherPlayer(PlayerController currentPlayer)
+        protected Component GetOtherPlayer(Component currentPlayer)
         {
-            var allPlayers = FindObjectsOfType<PlayerController>();
+            var allPlayers = FindObjectsOfType<MonoBehaviour>().Where(mb => mb.GetType().Name == "PlayerController");
             foreach (var player in allPlayers)
             {
                 if (player != currentPlayer)

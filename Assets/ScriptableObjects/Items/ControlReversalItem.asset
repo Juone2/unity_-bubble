@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: controlReversalItemScriptGUID}
+  m_Script: {fileID: 11500000, guid: d9f5c618fdf614d51bea6dd01f2e1529}
   m_Name: ControlReversalItem
   itemName: Control Reversal
   description: Reverses the opponent's movement controls for a short time
